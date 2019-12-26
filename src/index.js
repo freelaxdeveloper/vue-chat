@@ -9,7 +9,8 @@ window.Echo = new Echo({
   broadcaster: 'pusher',
   key: '634532234',
   cluster: 'mt1',
-  wsHost: 'chat.loc',
+  // wsHost: 'chat.loc',
+  wsHost: 'api-chat.extrums.cf',
   // authEndpoint: 'http://chat.loc/broadcasting/auth',
   // auth: {
   //   headers: {

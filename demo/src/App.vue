@@ -4,8 +4,7 @@
       :chosenColor="chosenColor"
       :colors="colors"
     />
-<!--    {{room}}-->
-<!--    <input type="text" v-model="room">-->
+    <input type="text" v-model="room" style="margin-left: 15px;border: 1px solid #fff;color: #e6e6e68c;">
     <beautiful-chat
       :alwaysScrollToBottom="alwaysScrollToBottom"
       :close="closeChat"
@@ -110,6 +109,8 @@ import Header from './Header.vue'
 import Footer from './Footer.vue'
 import TestArea from './TestArea.vue'
 import availableColors from './colors'
+require('howler')
+// import howler from 'howler'
 
 export default {
   name: 'app',
@@ -174,6 +175,12 @@ export default {
       this.channel
         .listen('MessageEvent', ({message}) => {
           this.push(message, message.id)
+          var sound = new Howl({
+            // src: 'http://chat.loc/storage/bubbling-up.mp3',
+            src: 'http://api-chat.extrums.cf/storage/bubbling-up.mp3',
+            volume: 1,
+          });
+          sound.play();
         }).listen('MessageRemoveEvent', ({id, type, message}) => {
           this.updateRemoveMessage(id, type, message)
         }).listen('MessageUpdateEvent', ({id, message}) => {
@@ -328,6 +335,9 @@ export default {
     }
   },
   mounted(){
+    if (this.$route.query.room) {
+      this.room = this.$route.query.room
+    }
     this.fetchMessageHistoty()
     // this.messageList.forEach(x=>x.liked = false);
   }

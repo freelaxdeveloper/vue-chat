@@ -14,7 +14,6 @@ window.axios.defaults.baseURL = 'http://api-chat.extrums.cf/api'
 
 window.Echo.connector.pusher.connection.bind('connected', function () {
   window.axios.defaults.headers.common['X-Socket-Id'] = window.Echo.socketId()
-  console.log('fff', window.Echo.socketId())
 })
 
 const token = localStorage.getItem('api_token')

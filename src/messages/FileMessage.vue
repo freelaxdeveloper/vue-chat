@@ -1,7 +1,7 @@
 <template>
   <div class='sc-message--file' :style="messageColors">
     <div class='sc-message--file-icon'>
-      <img v-if="data.file.is_image" :src="data.file.url" class="sc-image">
+      <a :href="data.file.url ? data.file.url : '#'" target='_blank'><img v-if="data.file.is_image" :src="data.file.url" class="sc-image"></a>
     </div>
     <div class='sc-message--file-name' :style="messageColors">
       <a :href="data.file.url ? data.file.url : '#'" target='_blank'>{{data.file.name || ''}}</a>

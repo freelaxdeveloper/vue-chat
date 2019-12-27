@@ -170,21 +170,37 @@ export default {
         window.location.reload()
       })
     },
+    playNewMessage(message) {
+      switch (message.type) {
+        case 'emoji':
+          this.play('munchausen.mp3')
+          break;
+        case 'file':
+          this.play('insight.mp3')
+          break;
+        default:
+          this.play()
+      }
+    },
+    play(fileName = 'wet.mp3') {
+      var sound = new Howl({
+        // src: 'http://chat.loc/audio/' + fileName,
+        src: 'http://api-chat.extrums.cf/audio/' + fileName,
+        volume: 0.5,
+      });
+      sound.play();
+    },
     socketConnect() {
       // console.log('chat' + this.token)
       this.channel
         .listen('MessageEvent', ({message}) => {
+          this.playNewMessage(message)
           this.push(message, message.id)
-          var sound = new Howl({
-            // src: 'http://chat.loc/storage/bubbling-up.mp3',
-            src: 'http://api-chat.extrums.cf/storage/bubbling-up.mp3',
-            volume: 1,
-          });
-          sound.play();
         }).listen('MessageRemoveEvent', ({id, type, message}) => {
+          this.play('rawhide.mp3')
           this.updateRemoveMessage(id, type, message)
         }).listen('MessageUpdateEvent', ({id, message}) => {
-          console.log('MessageUpdateEvent', id, message)
+          this.play('hold-on.mp3')
           this.updateEditMessage(id, message)
         })
     },
@@ -215,7 +231,7 @@ export default {
       message.data.file = 'file'
       axios.post(`/chat/${this.room}/message`, message, {
                 headers: {
-                  'X-Socket-Id': window.Echo.socketId()
+                  // 'X-Socket-Id': window.Echo.socketId()
                 }
               }
       ).then(response => {
@@ -238,7 +254,7 @@ export default {
       return axios.post(`/message/${message_id}/file`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'X-Socket-Id': window.Echo.socketId()
+          // 'X-Socket-Id': window.Echo.socketId()
         }
       })
     },
@@ -270,7 +286,7 @@ export default {
     editMessage(message){
       axios.put(`/message/${message.id}`, {message: message.data.text}, {
         headers: {
-          'X-Socket-Id': window.Echo.socketId()
+          // 'X-Socket-Id': window.Echo.socketId()
         }
       }).then(response => {
         this.updateEditMessage(message.id, message.data.text)
@@ -290,7 +306,7 @@ export default {
       if (confirm('Delete?')){
         axios.delete(`/message/${message.id}`, {
           headers: {
-            'X-Socket-Id': window.Echo.socketId()
+            // 'X-Socket-Id': window.Echo.socketId()
           }
         }).then(response => {
           const data = response.data.data

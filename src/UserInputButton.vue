@@ -31,8 +31,8 @@ export default {
 .sc-user-input--button-icon-wrapper {
   background: none;
   border: none;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0 0 4px 0;
   outline: none;
   cursor: pointer;
   &:focus{
